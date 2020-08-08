@@ -1,8 +1,8 @@
-package org.jetbrains.plugins.template.listeners
+package com.github.vincentj711.kotlinorganizer.listeners
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManagerListener
-import org.jetbrains.plugins.template.services.MyProjectService
+import com.github.vincentj711.kotlinorganizer.services.MyProjectService
 
 internal class MyProjectManagerListener : ProjectManagerListener {
 
