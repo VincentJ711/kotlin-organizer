@@ -69,7 +69,7 @@ abstract class SortAction : AnAction() {
       val decls: List<KtDeclaration>,
       val deps: MutableSet<KtFunction>
   ) : PsiRecursiveElementVisitor() {
-    override fun visitElement(el: PsiElement?) {
+    override fun visitElement(el: PsiElement) {
       super.visitElement(el)
 
       // leave early if its not a ref expression since

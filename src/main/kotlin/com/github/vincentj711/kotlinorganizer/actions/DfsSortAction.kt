@@ -1,7 +1,7 @@
 package com.github.vincentj711.kotlinorganizer.actions
 
-import org.jetbrains.kotlin.fir.resolve.dfa.stackOf
 import org.jetbrains.kotlin.psi.KtFunction
+import java.util.Stack
 
 class DfsSortAction : SortAction() {
   override fun arrange(fnDeps: Map<KtFunction, Set<KtFunction>>) =
@@ -18,7 +18,8 @@ class DfsSortAction : SortAction() {
       List<KtFunction> {
     val trav = mutableListOf<KtFunction>()
     val visited = mutableSetOf<KtFunction>()
-    val stack = stackOf(node)
+    val stack = Stack<KtFunction>()
+    stack.add(node)
 
     while (stack.size > 0) {
       val n = stack.pop()

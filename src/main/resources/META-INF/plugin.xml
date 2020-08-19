@@ -5,7 +5,7 @@
 
   <!-- Product and plugin compatibility requirements -->
   <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
-  <depends>com.intellij.modules.platform</depends>
+  <idea-version since-build="193"/>
   <depends>org.jetbrains.kotlin</depends>
 
   <actions>
