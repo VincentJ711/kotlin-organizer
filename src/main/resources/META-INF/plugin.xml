@@ -12,5 +12,8 @@
     <action id="com.github.vincentj711.kotlinorganizer.actions.DfsSortAction"
             class="com.github.vincentj711.kotlinorganizer.actions.DfsSortAction"
             text="DFS Sort Kotlin Functions"/>
+    <action id="com.github.vincentj711.kotlinorganizer.actions.BfsSortAction"
+            class="com.github.vincentj711.kotlinorganizer.actions.BfsSortAction"
+            text="BFS Sort Kotlin Functions"/>
   </actions>
 </idea-plugin>
