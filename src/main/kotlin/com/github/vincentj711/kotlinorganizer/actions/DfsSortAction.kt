@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.fir.resolve.dfa.stackOf
 import org.jetbrains.kotlin.psi.KtFunction
 
 class DfsSortAction : SortAction() {
-  override fun arrange(fnDeps: Map<KtFunction, LinkedHashSet<KtFunction>>) =
+  override fun arrange(fnDeps: Map<KtFunction, Set<KtFunction>>) =
       fnDeps.keys.map { dfs(it, fnDeps) }
           // perhaps dont sort by descending to preserve
           // the original order the user had ?

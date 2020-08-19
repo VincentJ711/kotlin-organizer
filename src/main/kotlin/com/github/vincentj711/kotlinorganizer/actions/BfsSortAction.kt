@@ -5,7 +5,7 @@ import java.util.LinkedList
 import java.util.Queue
 
 class BfsSortAction : SortAction() {
-  override fun arrange(fnDeps: Map<KtFunction, LinkedHashSet<KtFunction>>) =
+  override fun arrange(fnDeps: Map<KtFunction, Set<KtFunction>>) =
       fnDeps.keys.map { bfs(it, fnDeps) }
           // perhaps dont sort by descending to preserve
           // the original order the user had ?

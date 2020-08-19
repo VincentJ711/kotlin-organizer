@@ -17,7 +17,6 @@ import org.jetbrains.kotlin.psi.psiUtil.getCallNameExpression
 
 abstract class SortAction : AnAction() {
   override fun actionPerformed(e: AnActionEvent) {
-    println("running ${this.javaClass.simpleName}")
     val psiFile = e.getData(LangDataKeys.PSI_FILE) ?: return
 
     if (psiFile is KtDeclarationContainer) {
@@ -63,12 +62,12 @@ abstract class SortAction : AnAction() {
   }
 
   protected abstract fun arrange(
-      fnDeps: Map<KtFunction, LinkedHashSet<KtFunction>>): List<KtFunction>
+      fnDeps: Map<KtFunction, Set<KtFunction>>): List<KtFunction>
 
   private class KtFunctionWalker(
       val fn: KtFunction,
       val decls: List<KtDeclaration>,
-      val deps: LinkedHashSet<KtFunction>
+      val deps: MutableSet<KtFunction>
   ) : PsiRecursiveElementVisitor() {
     override fun visitElement(el: PsiElement?) {
       super.visitElement(el)
