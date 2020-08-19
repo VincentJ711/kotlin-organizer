@@ -1,19 +1,16 @@
 <idea-plugin>
-    <id>com.github.vincentj711.kotlinorganizer</id>
-    <name>kotlin-organizer</name>
-    <vendor>vincentj711</vendor>
+  <id>com.github.vincentj711.kotlinorganizer</id>
+  <name>kotlin-organizer</name>
+  <vendor>vincentj711</vendor>
 
-    <!-- Product and plugin compatibility requirements -->
-    <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
-    <depends>com.intellij.modules.platform</depends>
+  <!-- Product and plugin compatibility requirements -->
+  <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
+  <depends>com.intellij.modules.platform</depends>
+  <depends>org.jetbrains.kotlin</depends>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.vincentj711.kotlinorganizer.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.vincentj711.kotlinorganizer.services.MyProjectService"/>
-    </extensions>
-
-    <projectListeners>
-        <listener class="com.github.vincentj711.kotlinorganizer.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </projectListeners>
+  <actions>
+    <action id="com.github.vincentj711.kotlinorganizer.actions.DfsSortAction"
+            class="com.github.vincentj711.kotlinorganizer.actions.DfsSortAction"
+            text="DFS Sort Kotlin Functions"/>
+  </actions>
 </idea-plugin>

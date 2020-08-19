@@ -4,7 +4,7 @@ import com.github.vincentj711.kotlinorganizer.MyBundle
 
 class MyApplicationService {
 
-    init {
-        println(MyBundle.message("applicationService"))
-    }
+  init {
+    println(MyBundle.message("applicationService"))
+  }
 }
