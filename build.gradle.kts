@@ -17,7 +17,7 @@ dependencies {
 intellij {
   version = "2019.3"
   updateSinceUntilBuild = false
-  setPlugins("org.jetbrains.kotlin:1.3.72-release-IJ2019.3-1")
+  setPlugins("java", "org.jetbrains.kotlin:1.3.72-release-IJ2019.3-1")
 }
 
 tasks {

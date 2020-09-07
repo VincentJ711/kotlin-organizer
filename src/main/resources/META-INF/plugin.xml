@@ -1,19 +1,22 @@
 <idea-plugin>
   <id>com.github.vincentj711.kotlinorganizer</id>
-  <name>kotlin-organizer</name>
+  <name>Kotlin Organizer</name>
   <vendor>vincentj711</vendor>
-
-  <!-- Product and plugin compatibility requirements -->
-  <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
   <idea-version since-build="193"/>
   <depends>org.jetbrains.kotlin</depends>
 
   <actions>
-    <action id="com.github.vincentj711.kotlinorganizer.actions.DfsSortAction"
-            class="com.github.vincentj711.kotlinorganizer.actions.DfsSortAction"
-            text="DFS Sort Kotlin Functions"/>
-    <action id="com.github.vincentj711.kotlinorganizer.actions.BfsSortAction"
-            class="com.github.vincentj711.kotlinorganizer.actions.BfsSortAction"
-            text="BFS Sort Kotlin Functions"/>
+    <action id="com.github.vincentj711.kotlinorganizer.SortAction"
+            class="com.github.vincentj711.kotlinorganizer.SortAction"
+            text="Sort Kotlin Code"/>
   </actions>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <applicationService
+        serviceImplementation="com.github.vincentj711.kotlinorganizer.Config"/>
+    <applicationConfigurable id="ktOrganizerConfigurator"
+                             displayName="Kotlin Organizer"
+                             groupId="tools"
+                             instance="com.github.vincentj711.kotlinorganizer.Configurator"/>
+  </extensions>
 </idea-plugin>
