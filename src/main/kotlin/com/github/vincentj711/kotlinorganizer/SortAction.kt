@@ -18,9 +18,10 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtSecondaryConstructor
 
-class SortAction : AnAction() {
-  private val config = ServiceManager.getService(Config::class.java)
-
+class SortAction(
+    /** allow tests to provide a config */
+    private val config: Config = ServiceManager.getService(Config::class.java)
+) : AnAction() {
   override fun actionPerformed(e: AnActionEvent) {
     val file = e.getData(LangDataKeys.PSI_FILE) ?: return
     val project = e.project ?: return

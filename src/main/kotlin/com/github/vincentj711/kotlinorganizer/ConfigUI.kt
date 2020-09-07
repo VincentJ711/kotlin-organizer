@@ -49,10 +49,9 @@ class ConfigUI(initialConfig: Config) {
         .map { it.first }
         .forEach { groupingPaneListModel.add(it) }
 
-    groupingPaneList.setCellRenderer { list, g, _, isSelected, _ ->
-      val d = g.description
-      val c = if (isSelected) list.selectionForeground else list.foreground
-      val label = JLabel(g.displayName + if (d != null) " - $d" else "")
+    groupingPaneList.setCellRenderer { jList, g, _, isSelected, _ ->
+      val c = if (isSelected) jList.selectionForeground else jList.foreground
+      val label = JLabel(g.uiText)
       label.foreground = c
       label.border = BorderFactory.createEmptyBorder(0, 10, 0, 0)
       label

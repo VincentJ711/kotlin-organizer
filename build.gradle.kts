@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+  implementation("org.junit.jupiter:junit-jupiter:5.4.2")
 }
 
 intellij {
@@ -30,5 +31,9 @@ tasks {
     getByName<KotlinCompile>(it) {
       kotlinOptions.jvmTarget = "1.8"
     }
+  }
+
+  test {
+    useJUnitPlatform()
   }
 }

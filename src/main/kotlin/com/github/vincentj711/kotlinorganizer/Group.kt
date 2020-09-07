@@ -16,6 +16,8 @@ enum class Group(val description: String? = null) {
         *values().mapIndexed { ind, g -> Pair(g, ind) }.toTypedArray())
   }
 
-  /** whats displayed in the settings dialog for this group */
-  val displayName = name.toLowerCase().replace("_", " ")
+  private val displayName = name.toLowerCase().replace("_", " ")
+
+  val uiText = displayName + if (description == null) "" else
+    " - $description"
 }
