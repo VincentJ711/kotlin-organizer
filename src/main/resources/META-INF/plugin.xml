@@ -4,11 +4,16 @@
   <vendor>vincentj711</vendor>
   <idea-version since-build="193"/>
   <depends>org.jetbrains.kotlin</depends>
+  <description>
+    This is a plugin to help you organize/sort your Kotlin files.
+  </description>
 
   <actions>
     <action id="com.github.vincentj711.kotlinorganizer.SortAction"
             class="com.github.vincentj711.kotlinorganizer.SortAction"
-            text="Sort Kotlin Code"/>
+            text="Sort Kotlin Code">
+      <add-to-group group-id="ProjectViewPopupMenu"/>
+    </action>
   </actions>
 
   <extensions defaultExtensionNs="com.intellij">

@@ -1,12 +1,17 @@
 package com.github.vincentj711.kotlinorganizer
 
+import com.intellij.notification.Notification
+import com.intellij.notification.NotificationType
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.LangDataKeys
+import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.ServiceManager
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleManager
+import org.jetbrains.kotlin.idea.core.util.toPsiFile
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtClassInitializer
 import org.jetbrains.kotlin.psi.KtClassOrObject
@@ -19,26 +24,63 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtSecondaryConstructor
 import org.jetbrains.kotlin.psi.KtTypeAlias
+import java.util.LinkedList
+
+private typealias PsiEltChanged = Boolean
 
 class SortAction(
     /** allow tests to provide a config */
     private val config: Config = ServiceManager.getService(Config::class.java)
 ) : AnAction() {
   override fun actionPerformed(e: AnActionEvent) {
-    val file = e.getData(LangDataKeys.PSI_FILE) ?: return
-    val project = e.project ?: return
+    val vfile = e.dataContext.getData(PlatformDataKeys.VIRTUAL_FILE) ?: return
+    val proj = e.project ?: return
+    val psiFiles = mutableListOf<PsiFile>()
 
-    if (file is KtDeclarationContainer) {
-      WriteCommandAction.runWriteCommandAction(project) {
-        sort(file, file.declarations)
-        CodeStyleManager.getInstance(project).reformat(file)
+    if (vfile.extension == "kt") {
+      psiFiles.add(vfile.toPsiFile(proj) ?: return)
+    } else if (vfile.isDirectory &&
+        RecursiveSortConfirmation(proj).showAndGet()) {
+      val q = LinkedList<VirtualFile>()
+
+      vfile.children.forEach { q.add(it) }
+
+      while (q.isNotEmpty()) {
+        val vf = q.remove()
+
+        if (vf.extension == "kt") {
+          val psiFile = vf.toPsiFile(proj)
+          if (psiFile != null) {
+            psiFiles.add(psiFile)
+          }
+        } else if (vf.isDirectory) {
+          vf.children.forEach { q.add(it) }
+        }
       }
+    }
+
+    if (psiFiles.isNotEmpty()) {
+      WriteCommandAction.runWriteCommandAction(
+          proj, "recursive kotlin sort", null, Runnable {
+        psiFiles.filterIsInstance<KtDeclarationContainer>().forEach {
+          if (sort(it as PsiFile, it.declarations)) {
+            CodeStyleManager.getInstance(proj).reformat(it)
+          }
+        }
+      }, *psiFiles.toTypedArray())
+    }
+
+    if (psiFiles.size > 1) {
+      Notification("Kotlin Organizer", "", "done with recursive kotlin sorting",
+          NotificationType.INFORMATION).notify(proj)
     }
   }
 
-  private fun sort(ctr: PsiElement, decls: List<KtDeclaration>) {
+  private fun sort(ctr: PsiElement, decls: List<KtDeclaration>): PsiEltChanged {
+    var changed = false
+
     decls.filterIsInstance<KtClassOrObject>()
-        .forEach { sort(it, it.declarations) }
+        .forEach { changed = changed || sort(it, it.declarations) }
 
     val groups = groupDeclarations(decls)
     val funcs = groups[Group.FUNCTIONS] ?: emptyList()
@@ -68,7 +110,10 @@ class SortAction(
         after.forEach { ctr.add(it) }
       }
       decls.forEach { it.delete() }
+      return true
     }
+
+    return changed
   }
 
   private fun groupDeclarations(decls: List<KtDeclaration>):
