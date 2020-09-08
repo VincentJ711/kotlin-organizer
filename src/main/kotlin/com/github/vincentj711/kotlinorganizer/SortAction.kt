@@ -12,11 +12,13 @@ import org.jetbrains.kotlin.psi.KtClassInitializer
 import org.jetbrains.kotlin.psi.KtClassOrObject
 import org.jetbrains.kotlin.psi.KtDeclaration
 import org.jetbrains.kotlin.psi.KtDeclarationContainer
+import org.jetbrains.kotlin.psi.KtEnumEntry
 import org.jetbrains.kotlin.psi.KtFunction
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtSecondaryConstructor
+import org.jetbrains.kotlin.psi.KtTypeAlias
 
 class SortAction(
     /** allow tests to provide a config */
@@ -90,6 +92,8 @@ class SortAction(
 
   private fun getGroup(decl: KtDeclaration): Group {
     return when {
+      decl is KtTypeAlias -> Group.TYPE_ALIASES
+      decl is KtEnumEntry -> Group.ENUM_ENTRIES
       decl is KtProperty -> Group.SETUP
       decl is KtSecondaryConstructor -> Group.SETUP
       decl is KtClassInitializer -> Group.SETUP

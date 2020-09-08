@@ -1,7 +1,9 @@
 package com.github.vincentj711.kotlinorganizer
 
 enum class Group(val description: String? = null) {
+  ENUM_ENTRIES("this group should be ordered first."),
   COMPANION_OBJECTS,
+  TYPE_ALIASES,
   SETUP("includes properties, init blocks and secondary constructors"),
   FUNCTIONS,
   INTERFACES,
@@ -11,7 +13,7 @@ enum class Group(val description: String? = null) {
   OTHER;
 
   companion object {
-    /** enums declared first will appear in the file first */
+    /** enums declared higher will appear higher in the output file */
     val defaultOrdering = mapOf(
         *values().mapIndexed { ind, g -> Pair(g, ind) }.toTypedArray())
   }
